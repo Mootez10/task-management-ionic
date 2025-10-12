@@ -1,0 +1,74 @@
+<ion-content fullscreen="true">
+  <div class="auth-container">
+    <div class="wave-header">
+      <h1>Welcome</h1>
+    </div>
+
+    <div class="form-container">
+      <form>
+        <div class="form-group">
+          <label>✉ Email or Mobile</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📧</span>
+            <input
+              type="email"
+              placeholder="Enter your email or mobile"
+              [(ngModel)]="email"
+              name="email"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>🔒 Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔐</span>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              [(ngModel)]="password"
+              name="password"
+            />
+          </div>
+        </div>
+
+        <div class="forgot-password">
+          <a routerLink="/reset-password">Forgot Password?</a>
+        </div>
+
+        <!-- ✅ Connect button to TS function -->
+        <ion-button
+          expand="block"
+          class="btn-primary"
+          (click)="login()"
+          [disabled]="loading"
+        >
+          {{ loading ? 'Logging in...' : 'Login' }}
+        </ion-button>
+      </form>
+
+      <div class="divider">Or continue with</div>
+      <div class="social-links">
+        <div
+    class="social-icon social-github"
+    (click)="loginWithGithub()"
+    title="Sign in with GitHub"
+  >
+    <ion-icon name="logo-github"></ion-icon>
+  </div>
+        <div
+    class="social-icon social-google"
+    (click)="loginWithGoogle()"
+    title="Sign in with Google"
+  >
+    G
+  </div>
+      </div>
+
+      <div class="sign-up-link">
+        Don't have an account?
+        <a routerLink="/register">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</ion-content>

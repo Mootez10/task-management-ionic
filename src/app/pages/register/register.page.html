@@ -1,0 +1,95 @@
+<ion-content fullscreen="true">
+  <div class="auth-container">
+    <div class="wave-header">
+      <h1>Sign Up</h1>
+    </div>
+
+    <div class="form-container">
+      <form>
+        <div class="form-group">
+          <label>👤 Full Name</label>
+          <div class="input-wrapper">
+            <span class="input-icon">👤</span>
+            <input
+              type="text"
+              placeholder="Enter your full name"
+              [(ngModel)]="name"
+              name="name"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>✉ Email Address</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📧</span>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              [(ngModel)]="email"
+              name="email"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>📱 Mobile Number</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📱</span>
+            <input
+              type="tel"
+              placeholder="Enter your mobile"
+              [(ngModel)]="mobile"
+              name="mobile"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>🔒 Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔐</span>
+            <input
+              type="password"
+              placeholder="Create a password"
+              [(ngModel)]="password"
+              name="password"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>🔒 Confirm Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔐</span>
+            <input
+              type="password"
+              placeholder="Confirm your password"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+            />
+          </div>
+        </div>
+
+        <ion-button
+          expand="block"
+          class="btn-primary"
+          (click)="register()"
+          [disabled]="loading"
+        >
+          {{ loading ? 'Creating Account...' : 'Sign Up' }}
+        </ion-button>
+      </form>
+
+      <div class="divider">Or continue with</div>
+      <div class="social-links">
+        <div class="social-icon social-facebook">f</div>
+        <div class="social-icon social-google">G</div>
+      </div>
+
+      <div class="sign-in-link">
+        Already have an account? <a routerLink="/login">Sign In</a>
+      </div>
+    </div>
+  </div>
+</ion-content>
