@@ -1,19 +1,151 @@
-ion-header {
-  ion-toolbar {
-    ion-title {
+:host {
+  --violet: #7b4ce0;
+  --light-bg: #f6f7fb;
+  --card-bg: #fff;
+}
+
+ion-content {
+  --background: var(--light-bg);
+}
+
+ion-toolbar {
+  --background: var(--violet);
+  color: #fff;
+
+  ion-avatar {
+    margin-right: 8px;
+    width: 38px;
+    height: 38px;
+    border: 2px solid #fff;
+  }
+
+  ion-title {
+    font-weight: 600;
+  }
+}
+
+.welcome-box {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 16px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    span {
+      color: var(--violet);
+    }
+  }
+
+  p {
+    font-size: 14px;
+    color: #888;
+  }
+
+  .add-task-input {
+    margin-top: 16px;
+    border-radius: 12px;
+    --background: #fafafa;
+  }
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-card {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  &.completed {
+    opacity: 0.8;
+    .task-body h3 {
+      text-decoration: line-through;
+    }
+  }
+
+  &.archived {
+    opacity: 0.6;
+  }
+
+  .task-icon {
+    background: var(--violet);
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 14px;
+
+    ion-icon {
+      color: #fff;
+      font-size: 24px;
+    }
+  }
+
+  .task-body {
+    flex: 1;
+
+    h3 {
+      font-size: 16px;
       font-weight: 600;
+      margin: 0;
+    }
+
+    p {
+      font-size: 12px;
+      color: #888;
+      margin: 2px 0 0;
+    }
+  }
+
+  .task-actions {
+    display: flex;
+    gap: 4px;
+
+    ion-button {
+      --padding-start: 4px;
+      --padding-end: 4px;
     }
   }
 }
 
-ion-item {
-  margin-bottom: 10px;
+.empty {
+  text-align: center;
+  color: #aaa;
+  margin-top: 40px;
+
+  ion-icon {
+    font-size: 36px;
+    color: var(--violet);
+  }
+
+  p {
+    margin-top: 8px;
+  }
 }
 
-ion-button {
-  font-weight: 500;
+.alert-button-cancel {
+  color: var(--ion-color-medium) !important;
+  font-weight: 600;
 }
 
-ion-list {
-  margin-top: 20px;
+.alert-button-delete {
+  color: #e74c3c !important; /* red */
+  font-weight: 700;
 }

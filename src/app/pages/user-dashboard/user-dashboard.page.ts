@@ -4,6 +4,7 @@ import {
   IonicModule,
   ToastController,
   AlertController,
+  LoadingController,
 } from '@ionic/angular';
 import {
   Firestore,
@@ -15,6 +16,7 @@ import {
   updateDoc,
   query,
   where,
+  getDoc,
 } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
@@ -28,15 +30,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-dashboard.page.scss'],
 })
 export class UserDashboardPage implements OnInit {
+  user: any = { name: '', photoURL: '' };
   tasks: any[] = [];
   newTask = '';
   userId = '';
+  currentDate = new Date();
 
   constructor(
     private firestore: Firestore,
     private auth: Auth,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController,
     private router: Router
   ) {}
 
@@ -44,11 +49,24 @@ export class UserDashboardPage implements OnInit {
     const user = this.auth.currentUser;
     if (user) {
       this.userId = user.uid;
+      await this.loadUserInfo();
       await this.loadTasks();
     }
   }
 
-  // 🔄 Load all tasks for current user
+  async loadUserInfo() {
+    const userRef = doc(this.firestore, `users/${this.userId}`);
+    const snapshot = await getDoc(userRef);
+    this.user = snapshot.exists()
+      ? snapshot.data()
+      : {
+          name: this.auth.currentUser?.displayName || 'User',
+          photoURL:
+            this.auth.currentUser?.photoURL ||
+            'https://api.dicebear.com/7.x/avataaars/svg?seed=user',
+        };
+  }
+
   async loadTasks() {
     const tasksRef = collection(this.firestore, 'tasks');
     const q = query(tasksRef, where('userId', '==', this.userId));
@@ -56,7 +74,6 @@ export class UserDashboardPage implements OnInit {
     this.tasks = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
   }
 
-  // ➕ Add new task
   async addTask() {
     if (!this.newTask.trim()) return;
     const tasksRef = collection(this.firestore, 'tasks');
@@ -64,6 +81,7 @@ export class UserDashboardPage implements OnInit {
       title: this.newTask,
       userId: this.userId,
       status: 'todo',
+      archived: false,
       createdAt: new Date(),
     });
     this.newTask = '';
@@ -71,17 +89,11 @@ export class UserDashboardPage implements OnInit {
     this.showToast('Task added ✅');
   }
 
-  // 📝 Edit task
   async editTask(task: any) {
     const alert = await this.alertCtrl.create({
       header: 'Edit Task',
       inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          value: task.title,
-          placeholder: 'Task title',
-        },
+        { name: 'title', type: 'text', value: task.title, placeholder: 'Task title' },
       ],
       buttons: [
         { text: 'Cancel', role: 'cancel' },
@@ -99,14 +111,48 @@ export class UserDashboardPage implements OnInit {
     await alert.present();
   }
 
-  // 🗑 Delete task
-  async deleteTask(taskId: string) {
-    await deleteDoc(doc(this.firestore, `tasks/${taskId}`));
-    this.showToast('Task deleted 🗑️');
+  async markAsCompleted(task: any) {
+    const taskRef = doc(this.firestore, `tasks/${task.id}`);
+    await updateDoc(taskRef, { status: 'done' });
+    this.showToast('Task completed ✅');
     this.loadTasks();
   }
 
-  // 🚪 Logout
+  async archiveTask(task: any) {
+    const taskRef = doc(this.firestore, `tasks/${task.id}`);
+    await updateDoc(taskRef, { archived: true });
+    this.showToast('Task archived 🗄️');
+    this.loadTasks();
+  }
+
+  // 🗑 Confirm before deleting a task
+async deleteTask(taskId: string) {
+  const alert = await this.alertCtrl.create({
+    header: 'Delete Task',
+    message: 'Are you sure you want to permanently delete this task?',
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'alert-button-cancel',
+      },
+      {
+        text: 'Delete',
+        role: 'destructive',
+        cssClass: 'alert-button-delete',
+        handler: async () => {
+          await deleteDoc(doc(this.firestore, `tasks/${taskId}`));
+          this.showToast('Task deleted 🗑️', 'danger');
+          this.loadTasks();
+        },
+      },
+    ],
+  });
+
+  await alert.present();
+}
+
+
   async logout() {
     await this.auth.signOut();
     this.router.navigateByUrl('/login', { replaceUrl: true });

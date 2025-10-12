@@ -1,34 +1,69 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>My Tasks</ion-title>
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-title>Dashboard</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="logout()">Logout</ion-button>
+      <ion-avatar>
+        <img [src]="user.photoURL || 'https://via.placeholder.com/50'" alt="avatar" />
+      </ion-avatar>
+      <ion-button (click)="logout()" color="danger">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <!-- Add Task Input -->
-  <ion-item>
-    <ion-input
-      placeholder="Enter a new task..."
-      [(ngModel)]="newTask"
-    ></ion-input>
-    <ion-button (click)="addTask()">Add</ion-button>
-  </ion-item>
-
-  <!-- Task List -->
-  <ion-list>
-    <ion-item *ngFor="let task of tasks">
-      <ion-label>{{ task.title }}</ion-label>
-
-      <ion-button color="medium" fill="clear" (click)="editTask(task)">
-        <ion-icon name="create-outline"></ion-icon>
-      </ion-button>
-
-      <ion-button color="danger" fill="clear" (click)="deleteTask(task.id)">
-        <ion-icon name="trash-outline"></ion-icon>
-      </ion-button>
+<ion-content fullscreen="true" class="ion-padding">
+  <!-- Welcome -->
+  <div class="welcome-box">
+    <h2>Hello, <span>{{ user.name }}</span> 👋</h2>
+    <p>{{ currentDate | date: 'fullDate' }}</p>
+    <ion-item class="add-task-input">
+      <ion-input placeholder="Add a new task..." [(ngModel)]="newTask"></ion-input>
+      <ion-button (click)="addTask()">Add</ion-button>
     </ion-item>
-  </ion-list>
+  </div>
+
+  <!-- Tasks List -->
+  <div class="task-list" *ngIf="tasks.length > 0; else noTasks">
+    <div
+      class="task-card"
+      *ngFor="let task of tasks"
+      [class.completed]="task.status === 'done'"
+      [class.archived]="task.archived"
+    >
+      <div class="task-icon">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+      </div>
+
+      <div class="task-body">
+        <h3>{{ task.title }}</h3>
+        <p>
+          {{ task.createdAt?.toDate ? (task.createdAt.toDate() | date:'medium') :
+          (task.createdAt | date:'medium') }}
+        </p>
+      </div>
+
+      <div class="task-actions">
+        <ion-button fill="clear" color="success" (click)="markAsCompleted(task)">
+          <ion-icon name="checkmark-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="medium" (click)="editTask(task)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="warning" (click)="archiveTask(task)">
+          <ion-icon name="archive-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="danger" (click)="deleteTask(task.id)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noTasks>
+    <div class="empty">
+      <ion-icon name="checkbox-outline"></ion-icon>
+      <p>No tasks yet. Add your first one!</p>
+    </div>
+  </ng-template>
 </ion-content>

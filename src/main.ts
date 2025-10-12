@@ -13,12 +13,25 @@ import { environment } from './environments/environment';
 
 // ✅ Ionicons imports
 import { addIcons } from 'ionicons';
-import { logoGoogle, logoGithub } from 'ionicons/icons';
+import {
+  logOutOutline,
+  checkmarkOutline,
+  createOutline,
+  trashOutline,
+  archiveOutline,
+  checkmarkDoneOutline,
+  checkboxOutline,
+} from 'ionicons/icons';
 
-// ✅ Register the icons globally
+// ✅ Register all icons used in dashboard
 addIcons({
-  logoGoogle,
-  logoGithub,
+  logOutOutline,
+  checkmarkOutline,
+  createOutline,
+  trashOutline,
+  archiveOutline,
+  checkmarkDoneOutline,
+  checkboxOutline,
 });
 
 bootstrapApplication(AppComponent, {
