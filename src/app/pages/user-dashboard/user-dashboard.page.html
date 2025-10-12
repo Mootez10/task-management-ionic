@@ -3,11 +3,15 @@
   <!-- Header -->
   <div class="header-section">
     <div class="header-top">
-      <ion-icon name="arrow-back-outline"></ion-icon>
+      <ion-icon ></ion-icon>
       <div class="header-actions">
         <ion-icon name="search-outline"></ion-icon>
-        <ion-icon name="options-outline"></ion-icon>
-      </div>
+<ion-icon
+  name="log-out-outline"
+  color="danger"
+  class="logout-btn"
+  (click)="logout()"
+></ion-icon>      </div>
     </div>
 
     <div class="month-title">
@@ -18,46 +22,69 @@
 </ion-button>
     </div>
 
-    <!-- Calendar -->
-    <div class="calendar-bar">
-      <div
-        class="calendar-day"
-        *ngFor="let day of days"
-        [class.active]="day.active"
-        (click)="selectDay(day)"
-      >
-        <span class="day-number">{{ day.date }}</span>
-        <span class="day-label">{{ day.label }}</span>
-      </div>
+    <!-- 📅 Calendar Carousel -->
+<div class="calendar-bar">
+  <div class="calendar-scroll">
+    <div
+      class="calendar-day"
+      *ngFor="let day of days"
+      [class.active]="day.active"
+      (click)="selectDay(day)"
+    >
+      <span class="day-number">{{ day.date }}</span>
+      <span class="day-label">{{ day.label }}</span>
     </div>
   </div>
+</div>
+<div *ngIf="tasks.length === 0" class="loading-text">
+  Loading tasks...
+</div>
 
-  <!-- Task List -->
-  <div class="task-section">
-    <div class="task-header">
-      <h3>Task</h3>
-      <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-    </div>
 
-    <div class="task-card" *ngFor="let task of tasks">
-      <div class="task-icon">
-        <ion-icon name="calendar-outline"></ion-icon>
-      </div>
-      <div class="task-details">
-        <h4>{{ task.title }}</h4>
-        <p>{{ task.createdAt?.toDate ? (task.createdAt.toDate() | date:'d MMM yyyy') : (task.createdAt | date:'d MMM yyyy') }}</p>
-      </div>
-      <ion-button fill="clear" color="dark" (click)="openTaskMenu(task)">
-        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-      </ion-button>
-    </div>
+
+  <!-- 🧾 Task Section -->
+<div class="task-section">
+  <div class="task-header">
+    <h3>Tasks</h3>
+    <ion-icon name="ellipsis-vertical-outline"></ion-icon>
   </div>
 
-  <!-- Floating Bottom Nav -->
-  <div class="bottom-nav">
-    <ion-icon name="home-outline"></ion-icon>
-    <ion-icon name="clipboard-outline"></ion-icon>
-    <ion-icon name="person-outline"></ion-icon>
-  </div>
+  <!-- ✅ If there are tasks -->
+  <div *ngIf="filteredTasks.length > 0; else noTasks">
+  <div class="task-card" *ngFor="let task of filteredTasks">
+    <div class="task-icon">
+      <ion-icon name="calendar-outline"></ion-icon>
+    </div>
 
-</ion-content>
+    <div class="task-details">
+      <h4>{{ task.title }}</h4>
+      <p>{{ task.dateOnly | date: 'd MMM yyyy' }}</p>
+    </div>
+
+    <!-- 🔧 Actions -->
+    <div class="task-actions">
+      <ion-icon
+        name="create-outline"
+        class="edit"
+        (click)="editTask(task)"
+      ></ion-icon>
+      <ion-icon
+        name="trash-outline"
+        class="delete"
+        (click)="deleteTask(task.id)"
+      ></ion-icon>
+    </div>
+  </div>
+</div>
+
+<!-- 🚫 No tasks fallback -->
+<ng-template #noTasks>
+  <div class="empty">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>No tasks for this day</p>
+  </div>
+</ng-template>
+
+  
+
+

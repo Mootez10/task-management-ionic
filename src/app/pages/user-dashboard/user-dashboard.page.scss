@@ -50,49 +50,73 @@
     }
   }
 
-  .calendar-bar {
+  /* === Calendar Carousel === */
+.calendar-bar {
+  background: white;
+  padding: 16px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  .calendar-scroll {
     display: flex;
-    justify-content: space-between;
-    margin-top: 16px;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
 
-    .calendar-day {
-      width: 60px;
-      height: 80px;
-      border-radius: 16px;
-      background: #eef0fa;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: 0.3s;
+    /* hide scroll bar */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 
-      .day-number {
-        font-weight: 700;
-        font-size: 18px;
-        color: var(--violet);
-      }
+  .calendar-day {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 80px;
+    border-radius: 16px;
+    background: #f5f6fa;
+    text-align: center;
+    scroll-snap-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
+    .day-number {
+      font-size: 18px;
+      font-weight: 700;
+      color: #444;
+    }
+
+    .day-label {
+      font-size: 12px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    &.active {
+      background: #2c3e8f;
+      box-shadow: 0 4px 12px rgba(44, 62, 143, 0.25);
+
+      .day-number,
       .day-label {
-        font-size: 12px;
-        color: #999;
-      }
-
-      &.active {
-        background: var(--violet);
         color: white;
-
-        .day-number,
-        .day-label {
-          color: white;
-        }
       }
+    }
 
-      &:hover {
-        transform: translateY(-3px);
-      }
+    &:hover {
+      transform: translateY(-4px);
     }
   }
 }
+
 
 /* TASK SECTION */
 .task-section {
@@ -184,3 +208,62 @@
     color: #bbb;
   }
 }
+}
+
+.empty {
+  text-align: center;
+  color: #aaa;
+  margin-top: 30px;
+
+  ion-icon {
+    font-size: 36px;
+    color: #2c3e8f;
+  }
+
+  p {
+    margin-top: 8px;
+    font-weight: 500;
+  }
+}
+
+.loading-text {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 24px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  ion-icon {
+    font-size: 22px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &.edit {
+      color: #4caf50;
+    }
+
+    &.delete {
+      color: #e53935;
+    }
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+
+.logout-btn {
+  font-size: 26px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.15);
+  }
+}
+

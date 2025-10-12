@@ -29,6 +29,7 @@ import {
   homeOutline,
   personOutline,
   ellipsisVerticalOutline,
+  logoGithub
 } from 'ionicons/icons';
 
 // ✅ Register all icons used in dashboard
@@ -48,6 +49,7 @@ addIcons({
   homeOutline,
   personOutline,
   ellipsisVerticalOutline,
+  logoGithub
 });
 
 bootstrapApplication(AppComponent, {
