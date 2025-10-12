@@ -1,0 +1,53 @@
+<ion-content fullscreen="true" class="create-task-page">
+
+  <!-- Violet Header -->
+  <div class="header">
+    <ion-icon name="arrow-back-outline" (click)="goBack()"></ion-icon>
+    <h2>Create New Task</h2>
+    <ion-icon name="search-outline"></ion-icon>
+  </div>
+
+  <!-- Task Form -->
+  <div class="form-container">
+
+    <ion-item lines="none" class="input-field">
+      <ion-label position="stacked">Title</ion-label>
+      <ion-input [(ngModel)]="task.title" placeholder="enter your task title"></ion-input>
+    </ion-item>
+    <ion-item lines="none" class="input-field">
+      <ion-label position="stacked">Date</ion-label>
+
+      <ion-datetime presentation="date" [(ngModel)]="task.date" [preferWheel]="false"
+        showDefaultButtons="true"></ion-datetime>
+    </ion-item>
+
+    <div class="time-row">
+      <div>
+        <ion-label>Start time</ion-label>
+        <ion-datetime presentation="time" [(ngModel)]="task.startTime"></ion-datetime>
+      </div>
+      <div>
+        <ion-label>End time</ion-label>
+        <ion-datetime presentation="time" [(ngModel)]="task.endTime"></ion-datetime>
+      </div>
+    </div>
+
+    <ion-item lines="none" class="input-field">
+      <ion-label position="stacked">Description</ion-label>
+      <ion-textarea autoGrow="true" [(ngModel)]="task.description" placeholder="Enter description..."></ion-textarea>
+    </ion-item>
+
+    <div class="category-section">
+      <h4>Category</h4>
+      <div class="category-list">
+        <div class="category-chip" *ngFor="let cat of categories" [class.active]="task.category === cat"
+          (click)="task.category = cat">
+          {{ cat }}
+        </div>
+      </div>
+    </div>
+
+    <ion-button expand="block" class="create-btn" (click)="createTask()">Create Task</ion-button>
+
+  </div>
+</ion-content>

@@ -35,6 +35,7 @@ export class UserDashboardPage implements OnInit {
   newTask = '';
   userId = '';
   currentDate = new Date();
+  days: any[] = []; // ✅ FIX: added missing array
 
   constructor(
     private firestore: Firestore,
@@ -46,12 +47,32 @@ export class UserDashboardPage implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.generateDays(); // ✅ create mini calendar
     const user = this.auth.currentUser;
     if (user) {
       this.userId = user.uid;
       await this.loadUserInfo();
       await this.loadTasks();
     }
+  }
+
+  // ✅ Calendar mini-bar
+  generateDays() {
+    const today = new Date();
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      this.days.push({
+        date: date.getDate(),
+        label: date.toLocaleDateString('en-US', { weekday: 'short' }),
+        active: i === 0,
+      });
+    }
+  }
+
+  selectDay(day: any) {
+    this.days.forEach((d) => (d.active = false));
+    day.active = true;
   }
 
   async loadUserInfo() {
@@ -125,33 +146,37 @@ export class UserDashboardPage implements OnInit {
     this.loadTasks();
   }
 
-  // 🗑 Confirm before deleting a task
-async deleteTask(taskId: string) {
-  const alert = await this.alertCtrl.create({
-    header: 'Delete Task',
-    message: 'Are you sure you want to permanently delete this task?',
-    buttons: [
-      {
-        text: 'Cancel',
-        role: 'cancel',
-        cssClass: 'alert-button-cancel',
-      },
-      {
-        text: 'Delete',
-        role: 'destructive',
-        cssClass: 'alert-button-delete',
-        handler: async () => {
-          await deleteDoc(doc(this.firestore, `tasks/${taskId}`));
-          this.showToast('Task deleted 🗑️', 'danger');
-          this.loadTasks();
+  async deleteTask(taskId: string) {
+    const alert = await this.alertCtrl.create({
+      header: 'Delete Task',
+      message: 'Are you sure you want to permanently delete this task?',
+      buttons: [
+        { text: 'Cancel', role: 'cancel', cssClass: 'alert-button-cancel' },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          cssClass: 'alert-button-delete',
+          handler: async () => {
+            await deleteDoc(doc(this.firestore, `tasks/${taskId}`));
+            this.showToast('Task deleted 🗑️', 'danger');
+            this.loadTasks();
+          },
         },
-      },
-    ],
-  });
+      ],
+    });
 
-  await alert.present();
-}
+    await alert.present();
+  }
 
+  // ✅ FIX: add method for Add Task navigation
+  goToCreateTask() {
+    this.router.navigateByUrl('/create-task');
+  }
+
+  // ✅ FIX: add stub for openTaskMenu (referenced in HTML)
+  openTaskMenu(task: any) {
+    console.log('Clicked task menu for:', task.title);
+  }
 
   async logout() {
     await this.auth.signOut();

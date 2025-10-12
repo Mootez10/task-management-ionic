@@ -1,69 +1,63 @@
-<ion-header translucent="true">
-  <ion-toolbar>
-    <ion-title>Dashboard</ion-title>
-    <ion-buttons slot="end">
-      <ion-avatar>
-        <img [src]="user.photoURL || 'https://via.placeholder.com/50'" alt="avatar" />
-      </ion-avatar>
-      <ion-button (click)="logout()" color="danger">
-        <ion-icon name="log-out-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<ion-content fullscreen="true" class="dashboard">
 
-<ion-content fullscreen="true" class="ion-padding">
-  <!-- Welcome -->
-  <div class="welcome-box">
-    <h2>Hello, <span>{{ user.name }}</span> 👋</h2>
-    <p>{{ currentDate | date: 'fullDate' }}</p>
-    <ion-item class="add-task-input">
-      <ion-input placeholder="Add a new task..." [(ngModel)]="newTask"></ion-input>
-      <ion-button (click)="addTask()">Add</ion-button>
-    </ion-item>
+  <!-- Header -->
+  <div class="header-section">
+    <div class="header-top">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      <div class="header-actions">
+        <ion-icon name="search-outline"></ion-icon>
+        <ion-icon name="options-outline"></ion-icon>
+      </div>
+    </div>
+
+    <div class="month-title">
+      <h2>{{ currentDate | date: 'MMM, yyyy' }}</h2>
+      <ion-button fill="solid" color="primary" (click)="goToCreateTask()">
+  <ion-icon name="add-outline"></ion-icon>
+  Add Task
+</ion-button>
+    </div>
+
+    <!-- Calendar -->
+    <div class="calendar-bar">
+      <div
+        class="calendar-day"
+        *ngFor="let day of days"
+        [class.active]="day.active"
+        (click)="selectDay(day)"
+      >
+        <span class="day-number">{{ day.date }}</span>
+        <span class="day-label">{{ day.label }}</span>
+      </div>
+    </div>
   </div>
 
-  <!-- Tasks List -->
-  <div class="task-list" *ngIf="tasks.length > 0; else noTasks">
-    <div
-      class="task-card"
-      *ngFor="let task of tasks"
-      [class.completed]="task.status === 'done'"
-      [class.archived]="task.archived"
-    >
+  <!-- Task List -->
+  <div class="task-section">
+    <div class="task-header">
+      <h3>Task</h3>
+      <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+    </div>
+
+    <div class="task-card" *ngFor="let task of tasks">
       <div class="task-icon">
-        <ion-icon name="checkmark-done-outline"></ion-icon>
+        <ion-icon name="calendar-outline"></ion-icon>
       </div>
-
-      <div class="task-body">
-        <h3>{{ task.title }}</h3>
-        <p>
-          {{ task.createdAt?.toDate ? (task.createdAt.toDate() | date:'medium') :
-          (task.createdAt | date:'medium') }}
-        </p>
+      <div class="task-details">
+        <h4>{{ task.title }}</h4>
+        <p>{{ task.createdAt?.toDate ? (task.createdAt.toDate() | date:'d MMM yyyy') : (task.createdAt | date:'d MMM yyyy') }}</p>
       </div>
-
-      <div class="task-actions">
-        <ion-button fill="clear" color="success" (click)="markAsCompleted(task)">
-          <ion-icon name="checkmark-outline"></ion-icon>
-        </ion-button>
-        <ion-button fill="clear" color="medium" (click)="editTask(task)">
-          <ion-icon name="create-outline"></ion-icon>
-        </ion-button>
-        <ion-button fill="clear" color="warning" (click)="archiveTask(task)">
-          <ion-icon name="archive-outline"></ion-icon>
-        </ion-button>
-        <ion-button fill="clear" color="danger" (click)="deleteTask(task.id)">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-button>
-      </div>
+      <ion-button fill="clear" color="dark" (click)="openTaskMenu(task)">
+        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+      </ion-button>
     </div>
   </div>
 
-  <ng-template #noTasks>
-    <div class="empty">
-      <ion-icon name="checkbox-outline"></ion-icon>
-      <p>No tasks yet. Add your first one!</p>
-    </div>
-  </ng-template>
+  <!-- Floating Bottom Nav -->
+  <div class="bottom-nav">
+    <ion-icon name="home-outline"></ion-icon>
+    <ion-icon name="clipboard-outline"></ion-icon>
+    <ion-icon name="person-outline"></ion-icon>
+  </div>
+
 </ion-content>

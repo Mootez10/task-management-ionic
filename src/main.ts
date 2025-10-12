@@ -21,6 +21,14 @@ import {
   archiveOutline,
   checkmarkDoneOutline,
   checkboxOutline,
+  arrowBackOutline,
+  searchOutline,
+  optionsOutline,
+  calendarOutline,
+  clipboardOutline,
+  homeOutline,
+  personOutline,
+  ellipsisVerticalOutline,
 } from 'ionicons/icons';
 
 // ✅ Register all icons used in dashboard
@@ -32,6 +40,14 @@ addIcons({
   archiveOutline,
   checkmarkDoneOutline,
   checkboxOutline,
+  arrowBackOutline,
+  searchOutline,
+  optionsOutline,
+  calendarOutline,
+  clipboardOutline,
+  homeOutline,
+  personOutline,
+  ellipsisVerticalOutline,
 });
 
 bootstrapApplication(AppComponent, {
