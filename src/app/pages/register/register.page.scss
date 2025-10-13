@@ -160,3 +160,12 @@ ion-content {
   --padding-top: 0 !important;
   --padding-bottom: 0 !important;
 }
+
+.social-icon.social-github {
+  background: #24292e;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

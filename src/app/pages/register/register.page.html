@@ -83,8 +83,20 @@
 
       <div class="divider">Or continue with</div>
       <div class="social-links">
-        <div class="social-icon social-facebook">f</div>
-        <div class="social-icon social-google">G</div>
+        <div
+    class="social-icon social-github"
+    (click)="loginWithGithub()"
+    title="Sign in with GitHub"
+  >
+    <ion-icon name="logo-github"></ion-icon>
+  </div>
+        <div
+    class="social-icon social-google"
+    (click)="loginWithGoogle()"
+    title="Sign in with Google"
+  >
+    G
+  </div>
       </div>
 
       <div class="sign-in-link">

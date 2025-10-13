@@ -68,4 +68,24 @@ export class RegisterPage {
     });
     await toast.present();
   }
+
+  async loginWithGoogle() {
+  try {
+    await this.authService.loginWithGoogle();
+    await this.showToast('✅ Google login successful!');
+    this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+  } catch (error: any) {
+    await this.showToast('❌ ' + error.message, 'danger');
+  }
+}
+
+async loginWithGithub() {
+  try {
+    await this.authService.loginWithGithub();
+    await this.showToast('✅ GitHub login successful!');
+    this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+  } catch (error: any) {
+    await this.showToast('❌ ' + error.message, 'danger');
+  }
+}
 }

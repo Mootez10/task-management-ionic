@@ -16,4 +16,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
     component: UserDashboardPage,
   },
+  {
+  path: 'create-task',
+  loadComponent: () => import('./pages/create-task/create-task.page').then(m => m.CreateTaskPage),
+},
 ];
