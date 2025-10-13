@@ -3,88 +3,68 @@
   <!-- Header -->
   <div class="header-section">
     <div class="header-top">
-      <ion-icon ></ion-icon>
+      <ion-icon></ion-icon>
       <div class="header-actions">
         <ion-icon name="search-outline"></ion-icon>
-<ion-icon
-  name="log-out-outline"
-  color="danger"
-  class="logout-btn"
-  (click)="logout()"
-></ion-icon>      </div>
+        <ion-icon name="log-out-outline" color="danger" class="logout-btn" (click)="logout()"></ion-icon>
+      </div>
     </div>
 
     <div class="month-title">
-      <h2>{{ currentDate | date: 'MMM, yyyy' }}</h2>
-      <ion-button fill="solid" color="primary" (click)="goToCreateTask()">
-  <ion-icon name="add-outline"></ion-icon>
-  Add Task
-</ion-button>
-    </div>
+  <h2>{{ currentDate | date: 'MMM, yyyy' }}</h2>
+  <ion-button fill="solid" class="add-task-btn" (click)="goToCreateTask()">
+    <ion-icon name="add-outline"></ion-icon>
+    Add Task
+  </ion-button>
+</div>
+
 
     <!-- 📅 Calendar Carousel -->
-<div class="calendar-bar">
-  <div class="calendar-scroll">
-    <div
-      class="calendar-day"
-      *ngFor="let day of days"
-      [class.active]="day.active"
-      (click)="selectDay(day)"
-    >
-      <span class="day-number">{{ day.date }}</span>
-      <span class="day-label">{{ day.label }}</span>
+    <div class="calendar-bar">
+      <div class="calendar-scroll">
+        <div class="calendar-day" *ngFor="let day of days" [class.active]="day.active" (click)="selectDay(day)">
+          <span class="day-number">{{ day.date }}</span>
+          <span class="day-label">{{ day.label }}</span>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div *ngIf="tasks.length === 0" class="loading-text">
-  Loading tasks...
-</div>
-
-
-
-  <!-- 🧾 Task Section -->
-<div class="task-section">
-  <div class="task-header">
-    <h3>Tasks</h3>
-    <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-  </div>
-
-  <!-- ✅ If there are tasks -->
-  <div *ngIf="filteredTasks.length > 0; else noTasks">
-  <div class="task-card" *ngFor="let task of filteredTasks">
-    <div class="task-icon">
-      <ion-icon name="calendar-outline"></ion-icon>
+    <div *ngIf="tasks.length === 0" class="loading-text">
+      Loading tasks...
     </div>
 
-    <div class="task-details">
-      <h4>{{ task.title }}</h4>
-      <p>{{ task.dateOnly | date: 'd MMM yyyy' }}</p>
-    </div>
-
-    <!-- 🔧 Actions -->
-    <div class="task-actions">
-      <ion-icon
-        name="create-outline"
-        class="edit"
-        (click)="editTask(task)"
-      ></ion-icon>
-      <ion-icon
-        name="trash-outline"
-        class="delete"
-        (click)="deleteTask(task.id)"
-      ></ion-icon>
-    </div>
-  </div>
-</div>
-
-<!-- 🚫 No tasks fallback -->
-<ng-template #noTasks>
-  <div class="empty">
-    <ion-icon name="alert-circle-outline"></ion-icon>
-    <p>No tasks for this day</p>
-  </div>
-</ng-template>
-
-  
 
 
+    <!-- 🧾 Task Section -->
+    <div class="task-section">
+      <div class="task-header">
+        <h3>Tasks</h3>
+        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+      </div>
+
+      <!-- ✅ If there are tasks -->
+      <div *ngIf="filteredTasks.length > 0; else noTasks">
+        <div class="task-card" *ngFor="let task of filteredTasks">
+          <div class="task-icon">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
+
+          <div class="task-details">
+            <h4>{{ task.title }}</h4>
+            <p>{{ task.dateOnly | date: 'd MMM yyyy' }}</p>
+          </div>
+
+          <!-- 🔧 Actions -->
+          <div class="task-actions">
+            <ion-icon name="create-outline" class="edit" (click)="editTask(task)"></ion-icon>
+            <ion-icon name="trash-outline" class="delete" (click)="deleteTask(task.id)"></ion-icon>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🚫 No tasks fallback -->
+      <ng-template #noTasks>
+        <div class="empty">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <p>No tasks for this day</p>
+        </div>
+      </ng-template>

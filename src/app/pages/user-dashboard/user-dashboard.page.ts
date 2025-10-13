@@ -19,6 +19,8 @@ import { Auth } from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { deleteDoc, updateDoc } from 'firebase/firestore';
+import { LocalNotifications } from '@capacitor/local-notifications';
+
 
 @Component({
   selector: 'app-user-dashboard',
@@ -160,6 +162,19 @@ async editTask(task: any) {
           const taskRef = doc(this.firestore, `tasks/${task.id}`);
           await updateDoc(taskRef, { title: data.title });
 
+          // ✅ Show notification
+          await LocalNotifications.schedule({
+            notifications: [
+              {
+                id: new Date().getTime(),
+                title: '✏️ Task Updated',
+                body: `Your task "${data.title}" was successfully updated.`,
+                schedule: { at: new Date(Date.now() + 1000) },
+                smallIcon: 'ic_launcher',
+              },
+            ],
+          });
+
           this.showToast('Task updated ✏️');
         },
       },
@@ -186,6 +201,20 @@ async deleteTask(taskId: string) {
         cssClass: 'alert-button-delete',
         handler: async () => {
           await deleteDoc(doc(this.firestore, `tasks/${taskId}`));
+
+          // ✅ Show notification
+          await LocalNotifications.schedule({
+            notifications: [
+              {
+                id: new Date().getTime(),
+                title: '🗑️ Task Deleted',
+                body: 'The task has been successfully deleted.',
+                schedule: { at: new Date(Date.now() + 1000) },
+                smallIcon: 'ic_launcher',
+              },
+            ],
+          });
+
           this.showToast('Task deleted 🗑️', 'danger');
         },
       },

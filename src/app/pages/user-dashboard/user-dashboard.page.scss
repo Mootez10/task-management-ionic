@@ -33,22 +33,46 @@
   }
 
   .month-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    h2 {
-      font-weight: 700;
-      font-size: 20px;
-      color: var(--violet);
-      margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--violet);
+    margin: 0;
+  }
+
+  .add-task-btn {
+    --background: #2c3e8f;
+    --padding-start: 18px;
+    --padding-end: 18px;
+    --padding-top: 6px;
+    --padding-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    height: 36px;
+    text-transform: capitalize;
+    transition: all 0.3s ease;
+
+    ion-icon {
+      font-size: 18px;
+
     }
-    ion-button {
-      --background: var(--violet);
-      --border-radius: 10px;
-      font-size: 12px;
-      height: 30px;
+
+    &:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(44, 62, 143, 0.35);
+    }
+
+    &:active {
+      transform: scale(0.95);
     }
   }
+}
+
 
   /* === Calendar Carousel === */
 .calendar-bar {
@@ -266,4 +290,7 @@
     transform: scale(1.15);
   }
 }
+
+
+
 
