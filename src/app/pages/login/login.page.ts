@@ -24,23 +24,32 @@ export class LoginPage {
   ) {}
 
   async login() {
-    if (!this.email || !this.password) {
-      await this.showToast('Please fill all fields ❗', 'warning');
-      return;
-    }
-
-    this.loading = true;
-    try {
-      await this.authService.login(this.email, this.password);
-      await this.showToast('✅ Login successful!');
-      this.router.navigateByUrl('/tabs', { replaceUrl: true });
-    } catch (error: any) {
-      console.error('Login error:', error);
-      await this.showToast('❌ ' + error.message, 'danger');
-    } finally {
-      this.loading = false;
-    }
+  if (!this.email || !this.password) {
+    await this.showToast('Please fill all fields ❗', 'warning');
+    return;
   }
+
+  this.loading = true;
+  try {
+    // Perform login
+    await this.authService.login(this.email, this.password);
+
+    // ✅ Check if admin
+    if (this.email === 'admin@gmail.com' && this.password === 'admin123') {
+      await this.showToast('👑 Welcome Admin!');
+      this.router.navigateByUrl('/admin-dashboard', { replaceUrl: true });
+    } else {
+      await this.showToast('✅ Login successful!');
+      this.router.navigateByUrl('/user-dashboard', { replaceUrl: true });
+    }
+  } catch (error: any) {
+    console.error('Login error:', error);
+    await this.showToast('❌ ' + error.message, 'danger');
+  } finally {
+    this.loading = false;
+  }
+}
+
 
   async showToast(message: string, color: string = 'success') {
     const toast = await this.toastCtrl.create({
@@ -56,7 +65,7 @@ export class LoginPage {
   try {
     await this.authService.loginWithGoogle();
     await this.showToast('✅ Google login successful!');
-    this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+    this.router.navigateByUrl('/user-dashboard', { replaceUrl: true });
   } catch (error: any) {
     await this.showToast('❌ ' + error.message, 'danger');
   }
@@ -66,7 +75,7 @@ async loginWithGithub() {
   try {
     await this.authService.loginWithGithub();
     await this.showToast('✅ GitHub login successful!');
-    this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+    this.router.navigateByUrl('/user-dashboard', { replaceUrl: true });
   } catch (error: any) {
     await this.showToast('❌ ' + error.message, 'danger');
   }

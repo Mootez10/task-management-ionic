@@ -1,0 +1,33 @@
+<ion-content class="admin-tasks-page">
+  <!-- Header -->
+  <div class="header">
+    <ion-icon name="arrow-back-outline" (click)="goBack()"></ion-icon>
+    <h2>Tasks</h2>
+    <ion-icon name="funnel-outline"></ion-icon>
+  </div>
+
+  <!-- 🔍 Modern Search Bar -->
+  <div class="search-bar">
+    <ion-icon name="search-outline" class="search-icon"></ion-icon>
+    <ion-input placeholder="Search by task name or category " [(ngModel)]="searchTerm"
+      (ionInput)="filterTasks()"></ion-input>
+  </div>
+
+  <!-- Task List -->
+  <div class="task-list">
+    <div class="task-card" *ngFor="let task of filteredTasks">
+      <div class="timeline-dot"></div>
+        <div class="task-content">
+          <h4>{{ task.title }}</h4>
+          <p>Category : <strong>{{ task.category || 'Unknown' }}</strong></p>
+          <p>{{ task.createdAt?.toDate ? (task.createdAt.toDate() | date:'mediumDate') : '' }}</p>
+        </div>
+        <ion-icon name="eye-outline" class="view-icon" (click)="viewTask(task)"></ion-icon>
+    </div>
+
+    <div *ngIf="filteredTasks.length === 0" class="empty">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <p>No tasks found</p>
+    </div>
+  </div>
+</ion-content>

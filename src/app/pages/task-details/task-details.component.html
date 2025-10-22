@@ -1,0 +1,20 @@
+<ion-content class="details-modal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <ion-icon name="clipboard-outline" class="header-icon"></ion-icon>
+      <h2>{{ task.title || 'Untitled Task' }}</h2>
+      <ion-icon name="close-outline" class="close-icon" (click)="close()"></ion-icon>
+    </div>
+
+    <div class="modal-body">
+      <p><b>🏷️ Category:</b> {{ task.category || 'Not specified' }}</p>
+      <p><b>📅 Date:</b> 
+        {{ task.createdAt?.toDate ? (task.createdAt.toDate() | date:'mediumDate') : 'No date' }}
+      </p>
+    </div>
+
+    <ion-button expand="block" color="primary" class="close-btn" (click)="close()">
+      Close
+    </ion-button>
+  </div>
+</ion-content>

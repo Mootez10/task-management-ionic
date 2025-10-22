@@ -23,6 +23,7 @@ import { LocalNotifications } from '@capacitor/local-notifications';
   styleUrls: ['./create-task.page.scss'],
 })
 export class CreateTaskPage {
+  // The task model bound to your form fields
   task: any = {
     title: '',
     date: '',
@@ -42,16 +43,18 @@ export class CreateTaskPage {
     private router: Router
   ) {}
 
-  // ⏰ Create task and schedule notification
+  // ✅ Create a task and associate it with the current user
   async createTask() {
-    const user = this.auth.currentUser;
-    if (!user) return;
+    const user = this.auth.currentUser; // get currently logged-in user
+    if (!user) return; // safety check — no user = do nothing
 
+    // 1️⃣ Validate required fields
     if (!this.task.title || !this.task.date || !this.task.startTime) {
       this.showToast('Please fill all required fields ⚠️', 'warning');
       return;
     }
 
+    // 2️⃣ Show loading spinner while task is being created
     const loading = await this.loadingCtrl.create({
       message: 'Creating your task...',
       spinner: 'crescent',
@@ -59,23 +62,26 @@ export class CreateTaskPage {
     await loading.present();
 
     try {
-      // 🕒 Merge date and time into a single Date object
+      // 3️⃣ Combine date + time into one JS Date object
       const datePart = new Date(this.task.date);
       const [startHour, startMinute] = this.task.startTime.split(':').map(Number);
       datePart.setHours(startHour, startMinute, 0);
 
-      // ✅ Save to Firestore
+      // 4️⃣ Save the task in Firestore under the `tasks` collection
+      // 🚀 Important: link the task to the logged-in user using user.uid
       const taskRef = collection(this.firestore, 'tasks');
       await addDoc(taskRef, {
         ...this.task,
-        userId: user.uid,
+        userId: user.uid, // ✅ this ensures tasks are user-specific
+        userName: user.displayName || 'Anonymous',
+        userEmail: user.email || 'unknown',
         status: 'todo',
         archived: false,
         createdAt: new Date(),
       });
 
-      // ✅ Schedule notification with Capacitor
-      const notifyAt = new Date(datePart.getTime() - 2 * 60 * 1000); // 2 min before task
+      // 5️⃣ Schedule local notification 2 minutes before start time
+      const notifyAt = new Date(datePart.getTime() - 2 * 60 * 1000);
       await LocalNotifications.schedule({
         notifications: [
           {
@@ -87,19 +93,20 @@ export class CreateTaskPage {
         ],
       });
 
-      // 💻 Fallback for browser demo
-      if (!('Notification' in window)) {
-        console.log('Browser notifications not supported');
-      } else {
+      // 💻 Fallback for browsers (not mobile)
+      if ('Notification' in window && Notification.permission === 'granted') {
         new Notification('🕓 Task Reminder', {
           body: `Upcoming task: ${this.task.title}`,
           icon: 'assets/icon/favicon.png',
         });
       }
 
+      // 6️⃣ Stop loading + show success message
       await loading.dismiss();
       this.showToast('Task created successfully ✅');
-      this.router.navigateByUrl('/dashboard');
+
+      // 7️⃣ Redirect automatically to user dashboard
+      this.router.navigateByUrl('/user-dashboard', { replaceUrl: true });
     } catch (error) {
       await loading.dismiss();
       console.error('Error creating task:', error);
@@ -107,12 +114,12 @@ export class CreateTaskPage {
     }
   }
 
-  // 🔙 Go back to dashboard
+  // 🔙 Back button action
   goBack() {
-    this.router.navigateByUrl('/dashboard');
+    this.router.navigateByUrl('/user-dashboard');
   }
 
-  // ✅ Toast helper
+  // 🔔 Toast helper method
   async showToast(message: string, color: string = 'success') {
     const toast = await this.toastCtrl.create({
       message,

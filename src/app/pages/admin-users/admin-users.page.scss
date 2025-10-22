@@ -1,0 +1,86 @@
+:host {
+  --violet: #2c3e8f;
+  --bg-light: #f6f7fb;
+}
+
+.admin-users {
+  --background: var(--bg-light);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #2c3e8f, #3b4fad);
+  color: white;
+  padding: 20px 16px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  ion-icon {
+    font-size: 22px;
+    cursor: pointer;
+  }
+}
+
+/* Users List */
+.user-list {
+  margin-top: -40px;
+  padding: 0 16px;
+}
+
+.user-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 3px 10px rgba(44, 62, 143, 0.1);
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .user-info {
+    h3 {
+      margin: 0;
+      color: #333;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: #999;
+      font-size: 13px;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+
+    ion-icon {
+      font-size: 22px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      &.edit {
+        color: #4caf50;
+      }
+
+      &.delete {
+        color: #e53935;
+      }
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+}
