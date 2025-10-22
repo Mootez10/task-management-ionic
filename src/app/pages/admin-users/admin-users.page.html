@@ -1,0 +1,21 @@
+<ion-content class="admin-users" fullscreen="true">
+  <div class="header">
+    <ion-icon name="arrow-back-outline" (click)="goBack()"></ion-icon>
+    <h2>Users List</h2>
+    <ion-icon name="people-outline"></ion-icon>
+  </div>
+
+  <div class="user-list">
+    <div *ngFor="let user of users" class="user-card">
+      <div class="user-info">
+        <h3>{{ user.name }}</h3>
+        <p>{{ user.email }}</p>
+      </div>
+
+      <div class="actions">
+        <ion-icon name="create-outline" class="edit" (click)="editUser(user)"></ion-icon>
+        <ion-icon name="trash-outline" class="delete" (click)="deleteUser(user.id)"></ion-icon>
+      </div>
+    </div>
+  </div>
+</ion-content>

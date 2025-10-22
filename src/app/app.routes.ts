@@ -12,7 +12,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterPage },
   { path: 'reset-password', component: ResetPasswordPage },
   {
-    path: 'dashboard',
+    path: 'user-dashboard',
     canActivate: [authGuard],
     component: UserDashboardPage,
   },
@@ -20,4 +20,16 @@ export const routes: Routes = [
   path: 'create-task',
   loadComponent: () => import('./pages/create-task/create-task.page').then(m => m.CreateTaskPage),
 },
+  {
+    path: 'admin-dashboard',
+    loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.page').then( m => m.AdminDashboardPage)
+  },
+  {
+    path: 'admin-users',
+    loadComponent: () => import('./pages/admin-users/admin-users.page').then( m => m.AdminUsersPage)
+  },
+  {
+    path: 'admin-tasks',
+    loadComponent: () => import('./pages/admin-tasks/admin-tasks.page').then( m => m.AdminTasksPage)
+  },
 ];

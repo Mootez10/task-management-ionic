@@ -23,6 +23,7 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 // ✅ Ionicons imports
 import { addIcons } from 'ionicons';
 import {
+  peopleOutline,
   logOutOutline,
   checkmarkOutline,
   createOutline,
@@ -39,10 +40,15 @@ import {
   personOutline,
   ellipsisVerticalOutline,
   logoGithub,
+  eyeOutline,
+  addCircleOutline,
 } from 'ionicons/icons';
 
 // ✅ Register all icons used in dashboard
 addIcons({
+  addCircleOutline,
+  peopleOutline,
+  eyeOutline,
   logOutOutline,
   checkmarkOutline,
   createOutline,

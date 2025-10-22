@@ -1,0 +1,91 @@
+:host {
+  --violet: #2c3e8f;
+  --bg-light: #f6f7fb;
+}
+
+.admin-dashboard {
+  --background: var(--bg-light);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #2c3e8f, #3b4fad);
+  color: white;
+  text-align: center;
+  padding: 60px 16px 80px;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  p {
+    margin-top: 8px;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+}
+
+/* Dashboard Cards */
+.card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: -60px;
+  padding: 0 16px;
+}
+
+.dashboard-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(44, 62, 143, 0.1);
+  text-align: center;
+  padding: 24px 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(44, 62, 143, 0.2);
+  }
+
+  .icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 28px;
+      color: white;
+    }
+
+    &.users {
+      background: #2c3e8f;
+    }
+
+    &.tasks {
+      background: #f39c12;
+    }
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 20px;
+    margin: 4px 0 0;
+    color: #333;
+  }
+
+  p {
+    color: #777;
+    font-size: 14px;
+    margin: 0;
+  }
+}
